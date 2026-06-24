@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tron2 具身操作挑战赛 · 仿真 + 真机双阶段</title>
+<meta name="description" content="基于 LimX Tron2 机器人与 RoboTwin 2.0 的具身操作挑战赛：第一阶段线上仿真赛（点击闹钟 / 积木交接 / 物体入柜 / RGB 排序）筛选 Top N，第二阶段线下真机赛（点击闹钟 / 开抽屉取物 / 双臂拼积木 / 叠衣服）综合成功率、耗时与主观评分。">
+<link rel="stylesheet" href="./style.css">
+<script src="./config.js"></script>
+<script src="./board.js" defer></script>
+</head>
+<body data-board="sim">
+
+<nav class="nav">
+  <div class="wrap">
+    <span class="brand">Tron2 <span class="accent">Challenge</span></span>
+    <span class="nav-links">
+      <a href="#overview">概览</a>
+      <a href="#phase1">第一阶段</a>
+      <a href="#phase2">第二阶段</a>
+      <a href="#scoring">评分</a>
+      <a href="#submit">提交</a>
+      <a href="#board">排行榜</a>
+    </span>
+  </div>
+</nav>
+
+<!-- ───────── Hero ───────── -->
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">Embodied Manipulation Challenge</span>
+    <h1>Tron2 具身操作挑战赛<br><span class="accent">仿真</span>筛选 · <span class="amber">真机</span>决胜</h1>
+    <p class="lead">
+      基于 LimX Dynamics <b>Tron2</b> 双臂机器人与 <b>RoboTwin 2.0</b> 仿真环境，
+      评测视觉-语言-动作（VLA）策略在多种双臂操作任务上的能力。
+      第一阶段线上仿真赛筛选 Top N 晋级，第二阶段线下真机赛综合成功率、完成耗时与主观评分决出最终名次。
+    </p>
+    <p class="hero-meta">两阶段 · 8 道双臂操作题 · 16-D state/action · RoboTwin 2.0 + Tron2 真机 · 自动评测 + 评审打分 · 两榜独立排名</p>
+    <div class="hero-actions">
+      <a href="#phase1" class="btn primary">查看赛题</a>
+      <a href="#submit" class="btn">如何提交</a>
+      <a href="#board" class="btn">实时排行榜</a>
+    </div>
+    <div class="countdown-box">
+      <span class="label">距第一阶段提交截止</span>
+      <span id="countdown">—</span>
+    </div>
+  </div>
+</header>
+
+<!-- ───────── 01 概览 ───────── -->
+<section id="overview">
+  <div class="wrap">
+    <span class="sec-num">01 / 概览</span>
+    <h2 style="font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:0.8rem">两阶段赛制：先在仿真里证明，再到真机上交付</h2>
+    <p style="color:var(--muted);max-width:60rem">
+      具身操作的真正难点是 sim2real：仿真里能跑通的策略，未必抗得住真机的视觉噪声、位姿扰动与接触不确定性。
+      本赛事用两个阶段拆解这一挑战——第一阶段在 RoboTwin 仿真中以统一的隐藏 seed 评测、筛选 Top N；
+      第二阶段把晋级队伍放到统一布置的 Tron2 真机环境，由主办方代为部署测试，综合客观与主观指标决出名次。
+    </p>
+
+    <div class="stage-grid">
+      <div class="stage-card">
+        <span class="sc-num">Phase 1 · 线上仿真</span>
+        <h3>RoboTwin 2.0 仿真赛</h3>
+        <p>4 道双臂操作题，满分 100。每题 10 个隐藏 seed × 10 次重复 = 100 个 official episodes，二值评分取均值。Q1-Q3 共 80 分用于排名筛选 Top N。</p>
+        <ul>
+          <li>Q1-Q3 主赛：确定晋级名单</li>
+          <li>Q4 sim2real：仿真 + 真机共同计分</li>
+          <li>提交策略代码包，官方隔离评测</li>
+          <li>独立排行榜（实时 Dev / 截止冻结 Final）</li>
+        </ul>
+      </div>
+      <div class="stage-card real">
+        <span class="sc-num">Phase 2 · 线下真机</span>
+        <h3>Tron2 真机决赛</h3>
+        <p>4 道真机操作题，满分 100，独立计分单独排名。每题 10 次真机评测，综合成功率、完成耗时与评审主观分。主办方每题提供 500 条真机示教数据。</p>
+        <ul>
+          <li>资格：第一阶段 Top N 晋级</li>
+          <li>纯真机评测，主办方统一部署</li>
+          <li>客观（成功率 + 耗时）80% + 主观 20%</li>
+          <li>提交 deploy.py + checkpoint</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 02 第一阶段赛题 ───────── -->
+<section id="phase1" class="phase-sim">
+  <div class="wrap">
+    <div class="phase-banner">
+      <span class="pb-tag">Phase 1 · 线上仿真</span>
+      <h2>第一阶段赛题</h2>
+      <span class="pb-meta">RoboTwin 2.0 · 满分 100 · 筛选 Top N</span>
+    </div>
+    <div class="sec-head">
+      <p>4 道 RoboTwin 双臂操作题。<b>Q1-Q3 共 80 分</b>用于确定晋级 sim2real 决赛的 Top N 队伍；<b>Q4 共 20 分</b>由仿真成绩和真机复测共同决定。每题得分 = 满分 × 全部 official episodes 的成功率均值。</p>
+    </div>
+    <table class="dtable">
+      <thead><tr><th style="width:4rem">题号</th><th style="width:11rem">赛题</th><th>任务目标</th><th style="width:6rem">满分</th><th style="width:6rem">最大步数</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Q1</td><td>点击闹钟<span class="th-sub">click_alarmclock</span></td><td>控制 Tron2 点击闹钟顶部按钮中心区域，触发按钮。考察精确接触与短程控制。</td><td class="score-col">20</td><td class="score-col">180</td></tr>
+        <tr><td class="lvl">Q2</td><td>积木交接<span class="th-sub">handover_block</span></td><td>左臂抓取红色积木，交接给右臂，由右臂放置到蓝色垫子上。考察双臂交接、抓取与放置。</td><td class="score-col">25</td><td class="score-col">420</td></tr>
+        <tr><td class="lvl">Q3</td><td>物体入柜<span class="th-sub">put_object_cabinet</span></td><td>一只手打开抽屉，另一只手将目标物体放入抽屉内。考察抽屉开合、物体转移、长程协同。</td><td class="score-col">35</td><td class="score-col">480</td></tr>
+        <tr><td class="lvl">Q4</td><td>RGB 积木排序<span class="th-sub">blocks_ranking_rgb</span></td><td>将不同颜色积木移到桌面中心区域，按指令颜色顺序从左到右排列。同时用于仿真评测与 Top N 真机复测。</td><td class="score-col">20</td><td class="score-col">650</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sec-head" style="margin-top:2.4rem">
+      <h2 style="font-size:1.3rem">评测协议</h2>
+      <p>每题使用主办方指定的 <b>10 个隐藏 seed</b>，每个 seed 重复评估 <b>10 次</b>，共 <b>100 个 official episodes</b>。隐藏 seed 只由官方评测器用于初始化环境，不传给参赛策略。</p>
+    </div>
+    <div class="formula">
+      task_score = task_full_score × <span class="accent">mean</span>(success over 100 episodes)
+      <span class="dim">  （success 为单 episode 二值结果：成功 1.0 / 失败 0.0）</span>
+    </div>
+    <p class="note"><b>终态防抖：</b>episode 成功/失败/超时后停止发送动作，仿真空跑 15-30 步，用末帧或末若干帧均值计算终态几何谓词。忽略极小残余速度；只有物体明显掉落、离开工作区或破坏任务目标才判失败。</p>
+  </div>
+</section>
+
+<!-- ───────── 03 第二阶段赛题 ───────── -->
+<section id="phase2" class="phase-real">
+  <div class="wrap">
+    <div class="phase-banner">
+      <span class="pb-tag">Phase 2 · 线下真机</span>
+      <h2>第二阶段赛题</h2>
+      <span class="pb-meta">Tron2 真机 · 满分 100 · 独立排名</span>
+    </div>
+    <div class="sec-head">
+      <p>4 道线下真机操作题，<b>独立计分、单独排名</b>，不与第一阶段分数合并。每道题在真机上评测 <b>10 次</b>，主办方每题提供 <b>500 条 Tron2 真机示教数据</b>。参赛资格为第一阶段 Q1-Q3 排名 Top N。</p>
+    </div>
+    <table class="dtable">
+      <thead><tr><th style="width:4rem">题号</th><th style="width:10rem">赛题</th><th>任务目标</th><th style="width:5rem">满分</th><th style="width:9rem">建议时限</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">L1</td><td>点击闹钟</td><td>找到并按下桌面闹钟顶部按钮。考察真机视觉定位、接触力控制、位置扰动鲁棒性。</td><td class="score-col">20</td><td class="score-col">60 s</td></tr>
+        <tr><td class="lvl">L2</td><td>开抽屉取物</td><td>一只手打开抽屉，另一只手识别并抓取抽屉内目标物体，放置到指定区域。考察抽屉交互、物体识别泛化、长程双臂协同。</td><td class="score-col">25</td><td class="score-col">90 s</td></tr>
+        <tr><td class="lvl">L3</td><td>双臂拼积木</td><td>左右臂各抓一块积木组件，精确对准拼合为整体并放置到目标位置。考察双臂同步、亚厘米对准、接触力感知。</td><td class="score-col">30</td><td class="score-col">120 s</td></tr>
+        <tr><td class="lvl">L4</td><td>叠衣服</td><td>将展开的衣服按指定方式折叠，最终形态满足几何对称谓词。考察柔性物体操控、形变规划、多步骤协调。</td><td class="score-col">25</td><td class="score-col">150 s</td></tr>
+      </tbody>
+    </table>
+    <p class="note"><b>待确认：</b>各题 time_limit / reference_time 当前为建议值，需依据真机实测标定；L3 拼合误差阈值、L4 叠衣服判定方式（自动谓词或评审目视）将在赛前公告。详见规则文档 §11。</p>
+  </div>
+</section>
+
+<!-- ───────── 04 评分 ───────── -->
+<section id="scoring">
+  <div class="wrap">
+    <span class="sec-num">04 / 评分标准</span>
+    <h2 style="font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:0.8rem">两阶段两套口径</h2>
+    <p style="color:var(--muted);max-width:58rem">第一阶段纯二值成功率，避免过程分争议；第二阶段（含 Q4 真机）引入耗时与主观分，综合考量动作质量与部署可靠性。</p>
+
+    <div class="sec-head" style="margin-top:2rem">
+      <h2 style="font-size:1.3rem;color:var(--accent)">第一阶段 / Q4 真机 · sim2real 计分</h2>
+    </div>
+    <div class="formula phase-sim">
+      q4_score = 20 × ( <span class="accent">0.4</span> · q4_sim_success_rate + <span class="accent">0.6</span> · q4_real_score )<br>
+      q4_real_score = 0.8 · real_objective_score + 0.2 · real_subjective_score<br>
+      real_objective_score = 0.8 · real_success_rate + 0.2 · real_time_score
+    </div>
+
+    <div class="sec-head" style="margin-top:2rem">
+      <h2 style="font-size:1.3rem;color:var(--amber)">第二阶段 · 真机单题计分</h2>
+    </div>
+    <div class="formula phase-real">
+      task_score = task_full_score × task_normalized_score<br>
+      task_normalized_score = <span class="accent">0.8</span> · objective_score + <span class="accent">0.2</span> · subjective_score<br>
+      objective_score = 0.8 · success_rate + 0.2 · time_score<br>
+      time_score = clip( (time_limit − avg_success_time) / (time_limit − reference_time), 0, 1 )
+    </div>
+
+    <table class="dtable" style="margin-top:1.6rem">
+      <thead><tr><th style="width:11rem">主观维度</th><th style="width:5rem">权重</th><th>考察内容</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl" style="color:var(--amber)">动作流畅性</td><td class="score-col" style="color:var(--amber)">30%</td><td>关节运动平滑、无抖动、无突变</td></tr>
+        <tr><td class="lvl" style="color:var(--amber)">安全性</td><td class="score-col" style="color:var(--amber)">25%</td><td>碰撞次数、急停触发、夹爪力控合理性</td></tr>
+        <tr><td class="lvl" style="color:var(--amber)">鲁棒性</td><td class="score-col" style="color:var(--amber)">25%</td><td>对真机扰动（位置偏差、光照变化）的适应能力</td></tr>
+        <tr><td class="lvl" style="color:var(--amber)">部署可复现性</td><td class="score-col" style="color:var(--amber)">20%</td><td>是否一次成功加载、接口是否规范、是否需额外干预</td></tr>
+      </tbody>
+    </table>
+    <p style="color:var(--dim);font-size:0.86rem;margin-top:0.8rem">主观评分由 3-5 名评审给出 [0,10] 分，按维度权重加权后归一化到 [0,1]，建议去掉最高/最低分取均值。主观分只占单题归一化分的 20%，不覆盖客观成功率结论。</p>
+  </div>
+</section>
+
+<!-- ───────── 05 提交 ───────── -->
+<section id="submit">
+  <div class="wrap">
+    <span class="sec-num">05 / 提交方式</span>
+    <h2 style="font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:0.8rem">统一策略接口，分阶段提交</h2>
+    <p style="color:var(--muted);max-width:58rem">两阶段使用同一套 <code>Policy</code> 接口（16-D state/action）。第一阶段提交仿真策略代码包；晋级后第二阶段额外提交真机部署脚本与 checkpoint。</p>
+
+    <div class="sub-grid">
+      <div class="sub-card">
+        <h4 style="color:var(--accent)">第一阶段 · 仿真提交</h4>
+        <p>提交策略代码包或 Docker 镜像，官方评测器通过固定接口调用。策略可用 RGB 观测、本体状态、任务名和自然语言指令；禁止读取隐藏 seed、物体真值、成功标志或评测日志。</p>
+        <div class="tree">submission/
+  agent.py      # 暴露 Policy 接口
+  config.yaml
+  README.md
+weights/
+  optional model weights</div>
+      </div>
+      <div class="sub-card">
+        <h4 style="color:var(--amber)">第二阶段 · 真机提交</h4>
+        <p>晋级队伍额外提交真机部署包。主办方在统一真机环境代为部署测试，不负责修复依赖或补齐权重；接口不匹配或权重缺失则该题记 0 分。</p>
+        <div class="tree">real_submission/
+  deploy.py     # 真机加载 + 推理接口
+  config.yaml
+  README.md
+checkpoints/
+  policy checkpoint files</div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:2rem">
+      <h2 style="font-size:1.2rem">统一 Policy 接口</h2>
+    </div>
+    <div class="code"><span class="c"># submission/agent.py（第一阶段）与 real_submission/deploy.py（第二阶段）一致</span>
+<span class="k">class</span> Policy:
+    <span class="k">def</span> reset(self, task_name: str, instruction: str) -> None:
+        <span class="c"># 每个 episode 开始前调用，重置策略内部状态</span>
+        ...
+
+    <span class="k">def</span> act(self, obs: dict) -> dict:
+        <span class="c"># 输入：RGB 图像 + 本体状态(16-D) + 任务名 + 指令</span>
+        <span class="c"># 返回：{"action": np.ndarray}，action 维度 16</span>
+        ...</div>
+    <p style="color:var(--dim);font-size:0.86rem;margin-top:0.8rem">单步推理超时由评测器强制执行。若策略崩溃、连续推理超时、返回非法动作或 shape 不符，对应 episode 记 0 分。官方评测期间禁止访问互联网。</p>
+  </div>
+</section>
+
+<!-- ───────── 06 排行榜 ───────── -->
+<section id="board">
+  <div class="wrap">
+    <span class="sec-num">06 / 排行榜</span>
+    <h2 style="font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:1rem">实时榜单</h2>
+
+    <div class="board-tabs">
+      <button class="board-tab sim active" data-tab="sim">第一阶段 · 仿真</button>
+      <button class="board-tab real" data-tab="real">第二阶段 · 真机</button>
+    </div>
+
+    <div class="board-head">
+      <span class="upd" id="updated">加载中…</span>
+      <span class="upd" id="board-hint"></span>
+    </div>
+
+    <!-- 第一阶段榜 -->
+    <table id="board-sim" class="board">
+      <thead>
+        <tr>
+          <th class="c-rank">#</th>
+          <th class="c-team" style="text-align:left">队伍</th>
+          <th>Q1 <span class="th-sub">/20</span></th>
+          <th>Q2 <span class="th-sub">/25</span></th>
+          <th>Q3 <span class="th-sub">/35</span></th>
+          <th>主赛 <span class="th-sub">Q1-Q3 /80</span></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- 第二阶段榜 -->
+    <table id="board-real" class="board real" hidden>
+      <thead>
+        <tr>
+          <th class="c-rank">#</th>
+          <th class="c-team" style="text-align:left">队伍</th>
+          <th>L1 <span class="th-sub">/20</span></th>
+          <th>L2 <span class="th-sub">/25</span></th>
+          <th>L3 <span class="th-sub">/30</span></th>
+          <th>L4 <span class="th-sub">/25</span></th>
+          <th>总分 <span class="th-sub">/100</span></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <p id="board-empty" class="empty-note" hidden>暂无成绩</p>
+  </div>
+</section>
+
+<!-- ───────── Footer ───────── -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <h5>赛事</h5>
+        <a href="#phase1">第一阶段赛题</a>
+        <a href="#phase2">第二阶段赛题</a>
+        <a href="#scoring">评分标准</a>
+        <a href="#submit">提交方式</a>
+      </div>
+      <div class="foot-col">
+        <h5>规则文档</h5>
+        <a href="https://github.com/limxdynamics" target="_blank" rel="noopener">第一阶段规则 ↗</a>
+        <a href="https://github.com/limxdynamics" target="_blank" rel="noopener">第二阶段规则 ↗</a>
+        <a href="https://github.com/limxdynamics" target="_blank" rel="noopener">提交指南 ↗</a>
+      </div>
+      <div class="foot-col">
+        <h5>平台</h5>
+        <a href="https://www.limxdynamics.com" target="_blank" rel="noopener">LimX Dynamics ↗</a>
+        <a href="https://github.com/TianxingChen/RoboTwin" target="_blank" rel="noopener">RoboTwin 2.0 ↗</a>
+      </div>
+    </div>
+    <p class="foot-note">Tron2 具身操作挑战赛 · 基于 LimX Tron2 机器人与 RoboTwin 2.0 仿真环境 · 两阶段独立排名，量化成绩由官方评测产出，主观分由评审组给出。</p>
+  </div>
+</footer>
+
+</body>
+</html>
