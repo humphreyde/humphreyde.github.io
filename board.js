@@ -99,7 +99,11 @@
 
   function renderMeta(data) {
     var updated = document.getElementById('updated');
-    if (updated) updated.textContent = '更新于 ' + (data.generated_at || '—');
+    if (updated) {
+      var txt = '更新于 ' + (data.generated_at || '—');
+      if (data.note) txt += ' · ' + data.note;
+      updated.textContent = txt;
+    }
     renderCountdown(data.deadline);
   }
 

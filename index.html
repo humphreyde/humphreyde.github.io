@@ -135,8 +135,8 @@
     <div class="task-grid">
       <div class="task-card">
         <div class="task-thumb">
-          <img src="./assets/tasks/q1.jpg" alt="点击闹钟" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="ph" style="display:none"><b>＋</b>assets/tasks/q1.jpg</div>
+          <video src="./assets/videos/q1.mp4" muted loop playsinline autoplay preload="metadata" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"></video>
+          <div class="ph" style="display:none"><b>＋</b>assets/videos/q1.mp4</div>
           <span class="task-badge">Q1</span>
           <span class="task-score">20 分</span>
         </div>
@@ -149,8 +149,8 @@
 
       <div class="task-card">
         <div class="task-thumb">
-          <img src="./assets/tasks/q2.jpg" alt="积木交接" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="ph" style="display:none"><b>＋</b>assets/tasks/q2.jpg</div>
+          <video src="./assets/videos/q2.mp4" muted loop playsinline autoplay preload="metadata" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"></video>
+          <div class="ph" style="display:none"><b>＋</b>assets/videos/q2.mp4</div>
           <span class="task-badge">Q2</span>
           <span class="task-score">25 分</span>
         </div>
@@ -163,8 +163,8 @@
 
       <div class="task-card">
         <div class="task-thumb">
-          <img src="./assets/tasks/q3.jpg" alt="物体入柜" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="ph" style="display:none"><b>＋</b>assets/tasks/q3.jpg</div>
+          <video src="./assets/videos/q3.mp4" muted loop playsinline autoplay preload="metadata" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"></video>
+          <div class="ph" style="display:none"><b>＋</b>assets/videos/q3.mp4</div>
           <span class="task-badge">Q3</span>
           <span class="task-score">35 分</span>
         </div>
@@ -177,8 +177,8 @@
 
       <div class="task-card">
         <div class="task-thumb">
-          <img src="./assets/tasks/q4.jpg" alt="RGB 积木排序" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="ph" style="display:none"><b>＋</b>assets/tasks/q4.jpg</div>
+          <video src="./assets/videos/q4.mp4" muted loop playsinline autoplay preload="metadata" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"></video>
+          <div class="ph" style="display:none"><b>＋</b>assets/videos/q4.mp4</div>
           <span class="task-badge">Q4</span>
           <span class="task-score">20 分</span>
         </div>
@@ -194,6 +194,7 @@
       task_score = full_score × <span class="accent">mean</span>(success over 100 episodes)
       <span class="dim">  （成功 1.0 / 失败 0.0；10 hidden seeds × 10 repeats）</span>
     </div>
+    <p style="color:var(--muted);font-size:0.82rem;margin-top:0.8rem">卡片演示视频来自 RoboTwin 官方任务库，展示任务形态（非 Tron2 本体）。</p>
   </div>
 </section>
 
@@ -278,8 +279,8 @@
 <section id="gallery">
   <div class="wrap">
     <div class="sec-eyebrow"><span class="sec-num">03 / 演示</span></div>
-    <h2 class="sec-title">Rollout &amp; 真机推理</h2>
-    <p class="sec-lead">仿真专家 rollout 与 Tron2 真机推理回放。视频文件放入 <span style="font-family:var(--mono);color:var(--muted)">assets/videos/</span> 后自动展示。</p>
+    <h2 class="sec-title">Tron2 Rollout 回放</h2>
+    <p class="sec-lead">Tron2 在 RoboTwin 中的策略 rollout 与真机推理回放。更多视频放入 <code>assets/videos/</code> 后自动展示。</p>
 
     <div class="video-grid">
       <figure class="vfig">
@@ -287,21 +288,21 @@
           <video src="./assets/videos/rollout-1.mp4" muted loop playsinline controls preload="metadata" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"></video>
           <div class="vph" style="display:none"><b>▶</b>assets/videos/rollout-1.mp4</div>
         </div>
-        <figcaption><b>仿真 Rollout</b> · RoboTwin 专家轨迹回放</figcaption>
+        <figcaption><b>Rollout</b> · Tron2 双臂操作回放</figcaption>
       </figure>
       <figure class="vfig">
         <div class="vbox">
           <video src="./assets/videos/rollout-2.mp4" muted loop playsinline controls preload="metadata" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"></video>
           <div class="vph" style="display:none"><b>▶</b>assets/videos/rollout-2.mp4</div>
         </div>
-        <figcaption><b>仿真 Rollout</b> · 双臂操作策略评测</figcaption>
+        <figcaption><b>Rollout</b> · 待补充（assets/videos/rollout-2.mp4）</figcaption>
       </figure>
       <figure class="vfig">
         <div class="vbox">
           <video src="./assets/videos/real-1.mp4" muted loop playsinline controls preload="metadata" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"></video>
           <div class="vph" style="display:none"><b>▶</b>assets/videos/real-1.mp4</div>
         </div>
-        <figcaption><b>真机推理</b> · Tron2 实机部署回放</figcaption>
+        <figcaption><b>真机推理</b> · 待补充（assets/videos/real-1.mp4）</figcaption>
       </figure>
     </div>
   </div>
