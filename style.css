@@ -330,7 +330,148 @@ footer { border-top: 1px solid var(--line); padding: 2.8rem 0 2rem; margin-top: 
 .foot-col a:hover { color: var(--accent); text-decoration: none; }
 .foot-note { color: var(--dim); font-size: 0.82rem; border-top: 1px solid var(--line-soft); padding-top: 1.4rem; }
 
+/* ───────── Hero 图文布局 ───────── */
+.hero .wrap { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 2.5rem; align-items: center; }
+.hero-copy { position: relative; z-index: 2; }
+.hero-visual { position: relative; }
+.hero-visual img {
+  width: 100%; height: auto; display: block;
+  filter: drop-shadow(0 20px 60px rgba(52, 216, 224, 0.18));
+}
+.hero-visual::after {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: radial-gradient(60% 60% at 50% 45%, var(--accent-glow), transparent 70%);
+}
+
+/* ───────── 区块标题（带编号）───────── */
+.sec-eyebrow { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem; }
+.sec-eyebrow .sec-num { margin: 0; }
+.sec-title {
+  font-family: var(--display); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.2rem);
+  letter-spacing: 0.01em; margin-bottom: 0.7rem;
+}
+.sec-lead { color: var(--muted); max-width: 60rem; font-size: 0.98rem; }
+.sec-lead b { color: var(--text); }
+
+/* ───────── 赛程时间线 ───────── */
+.timeline {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0; margin-top: 1.8rem; position: relative;
+}
+.tl-item {
+  position: relative; padding: 1.6rem 1rem 0; text-align: center;
+}
+.tl-item::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--line);
+}
+.tl-item::after {
+  content: ''; position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--accent-dim);
+}
+.tl-item.key::after { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+.tl-item.final::after { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 12px var(--amber-glow); }
+.tl-date {
+  font-family: var(--mono); font-size: 0.95rem; color: var(--accent); font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.tl-item.final .tl-date { color: var(--amber); }
+.tl-label { font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
+
+/* ───────── 任务卡片（图文）───────── */
+.task-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 1.2rem; margin-top: 1.6rem;
+}
+.task-card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+  overflow: hidden; transition: transform 0.18s, border-color 0.18s;
+}
+.task-card:hover { transform: translateY(-3px); border-color: var(--accent-dim); }
+.task-thumb {
+  position: relative; aspect-ratio: 16 / 10; overflow: hidden;
+  background: linear-gradient(135deg, var(--panel-2), var(--bg-soft));
+  display: flex; align-items: center; justify-content: center;
+}
+.task-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.task-thumb .ph {
+  font-family: var(--mono); font-size: 0.78rem; color: var(--dim);
+  text-align: center; padding: 1rem; letter-spacing: 0.05em;
+}
+.task-thumb .ph b { display: block; font-size: 2rem; color: var(--line); margin-bottom: 0.4rem; }
+.task-badge {
+  position: absolute; top: 0.7rem; left: 0.7rem;
+  font-family: var(--display); font-weight: 700; font-size: 0.78rem;
+  padding: 0.25rem 0.7rem; border-radius: 4px;
+  background: rgba(6, 8, 12, 0.85); color: var(--accent); border: 1px solid var(--accent-dim);
+  letter-spacing: 0.05em; backdrop-filter: blur(4px);
+}
+.phase-real .task-badge { color: var(--amber); border-color: var(--amber-dim); }
+.task-score {
+  position: absolute; top: 0.7rem; right: 0.7rem;
+  font-family: var(--mono); font-size: 0.82rem; font-weight: 600;
+  padding: 0.25rem 0.6rem; border-radius: 4px;
+  background: rgba(6, 8, 12, 0.85); color: var(--text); backdrop-filter: blur(4px);
+}
+.task-body { padding: 1.1rem 1.2rem 1.3rem; }
+.task-body h3 { font-family: var(--display); font-size: 1.15rem; margin-bottom: 0.45rem; }
+.task-body .task-id {
+  font-family: var(--mono); font-size: 0.72rem; color: var(--dim);
+  text-transform: none; letter-spacing: 0; margin-left: 0.5rem; font-weight: 400;
+}
+.task-body p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.8rem; }
+.task-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.task-tag {
+  font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+  padding: 0.2rem 0.55rem; border-radius: 3px;
+  background: var(--bg-soft); border: 1px solid var(--line-soft);
+}
+
+/* ───────── 视频展示区 ───────── */
+.video-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem; margin-top: 1.6rem;
+}
+.vfig {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+}
+.vfig .vbox {
+  position: relative; aspect-ratio: 16 / 9; background: #04060a;
+  display: flex; align-items: center; justify-content: center;
+}
+.vfig video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.vfig .vph {
+  font-family: var(--mono); font-size: 0.78rem; color: var(--dim); text-align: center;
+  padding: 1rem; letter-spacing: 0.05em;
+}
+.vfig .vph b { display: block; font-size: 1.8rem; color: var(--line); margin-bottom: 0.5rem; }
+.vfig figcaption {
+  padding: 0.85rem 1.1rem; font-size: 0.86rem; color: var(--muted);
+  border-top: 1px solid var(--line-soft);
+}
+.vfig figcaption b { color: var(--text); }
+
+/* ───────── 数字指标条 ───────── */
+.stat-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 1rem; margin-top: 1.8rem;
+}
+.stat {
+  text-align: center; padding: 1.2rem 0.8rem;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+}
+.stat .num {
+  font-family: var(--display); font-weight: 700; font-size: 2rem; color: var(--accent);
+  line-height: 1;
+}
+.stat .lbl { font-size: 0.82rem; color: var(--muted); margin-top: 0.4rem; }
+
 /* ───────── 响应式 ───────── */
+@media (max-width: 860px) {
+  .hero .wrap { grid-template-columns: 1fr; gap: 1.8rem; }
+  .hero-visual { order: -1; max-width: 420px; margin: 0 auto; }
+}
 @media (max-width: 800px) {
   .nav-links { display: none; }
   .stage-grid, .sub-grid { grid-template-columns: 1fr; }
@@ -341,4 +482,7 @@ footer { border-top: 1px solid var(--line); padding: 2.8rem 0 2rem; margin-top: 
   .board { font-size: 0.8rem; }
   .board th, .board td { padding: 0.6rem 0.45rem; }
   .phase-banner .pb-meta { margin-left: 0; width: 100%; }
+  .timeline { grid-template-columns: 1fr 1fr; }
+  .tl-item { text-align: left; padding: 1.2rem 0.6rem 0; }
+  .tl-item::after { left: 12px; }
 }
