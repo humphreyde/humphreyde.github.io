@@ -161,9 +161,21 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     initTabs();
+    initFaq();
     load();
     setInterval(load, REFRESH);
   });
+
+  function initFaq() {
+    var items = document.querySelectorAll('.faq-item');
+    items.forEach(function (item) {
+      var q = item.querySelector('.faq-q');
+      if (!q) return;
+      q.addEventListener('click', function () {
+        item.classList.toggle('open');
+      });
+    });
+  }
 })();
 
 /* ───────── 数据契约 data/leaderboard.json ─────────

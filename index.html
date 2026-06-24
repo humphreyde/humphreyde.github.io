@@ -21,6 +21,7 @@
       <a href="#phase2">第二阶段</a>
       <a href="#gallery">演示</a>
       <a href="#board">排行榜</a>
+      <a href="#faq">FAQ</a>
     </span>
   </div>
 </nav>
@@ -37,8 +38,9 @@
       </p>
       <p class="hero-meta">两阶段 · 8 道操作题 · 16-D 动作空间 · 两榜独立排名</p>
       <div class="hero-actions">
-        <a href="#phase1" class="btn primary">查看赛题</a>
-        <a href="#board" class="btn">实时排行榜</a>
+        <a href="#" data-signup class="btn primary" onclick="if(this.getAttribute('href')==='#'){alert('报名通道即将开放，敬请关注');return false;}">立即报名</a>
+        <a href="#phase1" class="btn">查看赛题</a>
+        <a href="#board" class="btn">排行榜</a>
       </div>
       <div class="countdown-box">
         <span class="label">距代码赛提交截止</span>
@@ -117,6 +119,17 @@
       <div class="tl-item final">
         <div class="tl-date">8.3</div>
         <div class="tl-label">线下黑客松<br>Tron2 真机决赛</div>
+      </div>
+    </div>
+
+    <div class="cta-band" style="margin-top:2.6rem">
+      <div class="cta-text">
+        <h2>报名参赛</h2>
+        <p>代码赛报名于 6.25–7.15 开放。提交策略代码即可参与第一阶段仿真评测，Q1-Q3 排名前列晋级真机决赛。</p>
+      </div>
+      <div class="cta-actions">
+        <a href="#" data-signup class="btn-cta" onclick="if(this.getAttribute('href')==='#'){alert('报名通道即将开放，敬请关注');return false;}">立即报名</a>
+        <a href="#faq" class="btn-cta ghost">常见问题</a>
       </div>
     </div>
   </div>
@@ -390,6 +403,41 @@ checkpoints/</div>
   </div>
 </section>
 
+<!-- ───────── 08 FAQ ───────── -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-eyebrow"><span class="sec-num">06 / 常见问题</span></div>
+    <h2 class="sec-title">FAQ</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">参赛需要什么基础？<span class="faq-icon"></span></button>
+        <div class="faq-a"><div class="faq-a-inner">需要具备视觉-语言-动作（VLA）或模仿学习的基础，能训练并打包一个策略模型。第一阶段在 RoboTwin 2.0 仿真中评测，官方提供任务配置与 public seeds 供本地调试；提交需实现统一的 <b>Policy</b> 接口（16 维 state/action）。</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">两个阶段是什么关系？<span class="faq-icon"></span></button>
+        <div class="faq-a"><div class="faq-a-inner">第一阶段为线上仿真赛，Q1-Q3 共 80 分用于排名筛选 <b>Top N</b> 晋级。第二阶段为线下真机赛，仅晋级队伍参加，<b>独立计分、单独排名</b>，不与第一阶段分数合并。两阶段共用同一套策略接口。</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">第二阶段真机怎么测？需要我到现场吗？<span class="faq-icon"></span></button>
+        <div class="faq-a"><div class="faq-a-inner">不需要远程连接真机。晋级队伍提交 <b>deploy.py + checkpoint</b>，主办方在统一布置的 Tron2 真机环境代为部署测试。每题真机评测 10 次，得分综合成功率、完成耗时与评审主观分（客观 80% + 主观 20%）。</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">主办方提供训练数据吗？<span class="faq-icon"></span></button>
+        <div class="faq-a"><div class="faq-a-inner">提供。第二阶段每道题主办方提供 <b>500 条 Tron2 真机示教数据</b>（HDF5 格式，含 RGB、16 维 qpos/action 与自然语言指令），以及任务配置、参考完成时长和真机部署接口说明。</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">提交有什么限制？哪些行为会被判零分？<span class="faq-icon"></span></button>
+        <div class="faq-a"><div class="faq-a-inner">策略可使用 RGB 观测、本体状态、任务名和指令；<b>禁止</b>读取 hidden seed、物体真值状态、成功标志或评测日志。评测期间禁止访问互联网。若策略崩溃、连续推理超时、返回非法动作或动作维度不符，对应 episode 记 0 分。</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">排行榜上的成绩是真实的吗？<span class="faq-icon"></span></button>
+        <div class="faq-a"><div class="faq-a-inner">当前榜单为<b>示例数据</b>，用于展示榜单形态。赛事开始后，所有成绩由官方评测器统一产出并覆盖，量化分数不接受选手自报。</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ───────── Footer ───────── -->
 <footer>
   <div class="wrap">
@@ -400,6 +448,7 @@ checkpoints/</div>
         <a href="#phase1">第一阶段</a>
         <a href="#phase2">第二阶段</a>
         <a href="#board">排行榜</a>
+        <a href="#faq">常见问题</a>
       </div>
       <div class="foot-col">
         <h5>平台</h5>

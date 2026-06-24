@@ -446,6 +446,67 @@ footer { border-top: 1px solid var(--line); padding: 2.8rem 0 2.2rem; margin-top
 .foot-col a:hover { color: var(--accent); }
 .foot-note { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--line-soft); padding-top: 1.4rem; line-height: 1.6; }
 
+/* ───────── 报名 CTA 横幅 ───────── */
+.cta-band {
+  background: linear-gradient(135deg, #2563eb, #1e4fdb);
+  border-radius: 16px; padding: 2.4rem 2.2rem; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.6rem; flex-wrap: wrap; box-shadow: var(--shadow-lg);
+  position: relative; overflow: hidden;
+}
+.cta-band::after {
+  content: ''; position: absolute; right: -40px; top: -40px;
+  width: 220px; height: 220px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+}
+.cta-text { position: relative; z-index: 1; }
+.cta-text h2 {
+  font-family: var(--display); font-weight: 800; font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  color: #fff; letter-spacing: -0.02em; margin-bottom: 0.4rem;
+}
+.cta-text p { color: rgba(255, 255, 255, 0.85); font-size: 0.98rem; max-width: 36rem; }
+.cta-actions { position: relative; z-index: 1; display: flex; gap: 0.8rem; flex-wrap: wrap; }
+.btn-cta {
+  font-family: var(--display); font-weight: 700; font-size: 0.98rem;
+  padding: 0.85rem 1.8rem; border-radius: 10px; cursor: pointer;
+  background: #fff; color: var(--accent); border: none;
+  transition: transform 0.15s, box-shadow 0.15s; box-shadow: var(--shadow-md);
+}
+.btn-cta:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); color: var(--accent-dim); }
+.btn-cta.ghost { background: rgba(255, 255, 255, 0.12); color: #fff; box-shadow: none; }
+.btn-cta.ghost:hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
+.btn-cta:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+/* ───────── FAQ ───────── */
+.faq-list { margin-top: 1.6rem; display: flex; flex-direction: column; gap: 0.7rem; }
+.faq-item {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+  overflow: hidden; box-shadow: var(--shadow-sm);
+}
+.faq-q {
+  width: 100%; text-align: left; cursor: pointer; border: none; background: none;
+  padding: 1.1rem 1.3rem; font-family: var(--display); font-weight: 600; font-size: 1rem;
+  color: var(--text); display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; transition: color 0.15s;
+}
+.faq-q:hover { color: var(--accent); }
+.faq-q .faq-icon {
+  flex-shrink: 0; width: 22px; height: 22px; position: relative; transition: transform 0.2s;
+}
+.faq-q .faq-icon::before, .faq-q .faq-icon::after {
+  content: ''; position: absolute; background: var(--accent); border-radius: 2px;
+}
+.faq-q .faq-icon::before { top: 10px; left: 3px; width: 16px; height: 2px; }
+.faq-q .faq-icon::after { top: 3px; left: 10px; width: 2px; height: 16px; transition: opacity 0.2s; }
+.faq-item.open .faq-q .faq-icon::after { opacity: 0; }
+.faq-a {
+  max-height: 0; overflow: hidden; transition: max-height 0.25s ease;
+  color: var(--text-2); font-size: 0.94rem; line-height: 1.65;
+}
+.faq-a-inner { padding: 0 1.3rem 1.2rem; }
+.faq-a-inner b { color: var(--text); }
+.faq-item.open .faq-a { max-height: 320px; }
+
 /* ───────── 响应式 ───────── */
 @media (max-width: 860px) {
   .hero .wrap { grid-template-columns: 1fr; gap: 2rem; }
@@ -464,4 +525,5 @@ footer { border-top: 1px solid var(--line); padding: 2.8rem 0 2.2rem; margin-top
   .timeline { grid-template-columns: 1fr 1fr; }
   .tl-item { text-align: left; padding: 1.2rem 0.6rem 0; }
   .tl-item::after { left: 12px; }
+  .cta-band { flex-direction: column; align-items: flex-start; padding: 1.8rem 1.5rem; }
 }
